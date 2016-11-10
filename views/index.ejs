@@ -1,0 +1,297 @@
+<html>
+	<head>
+        <title>Server Tracking Room</title>    	
+        <link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
+		<script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/javascripts/jquery-1.9.1.js"></script>	
+        <script type="text/javascript" src="/javascripts/script.js"></script>	
+		
+    </head>
+<body>
+<div class="outer">
+		<font style = "color : red" id="error"><%=error%></font>
+		<h1>Server Tracking Room</h1>
+		<div class="cart">
+            <br />
+			<table border="1" id="table">
+				<thead>
+					<tr>
+						
+						<th>F_ID</th>
+						<th>F_Nm</th>
+						<th>F_Dpt</th>
+						<th>F_Em</th>
+						<th>F_Ph</th>
+						<th>F_Ty</th>
+						<th>F_Cmps</th>
+						<th>F_Flr</th>
+						<th>F_Rm</th>
+						<th>F_Oth</th>
+						<th>F_S_M</th>
+						<th>F_O_M</th>
+						<th>F_O_I</th>
+						<th>F_SCH</th>
+                        <th>F_S_D</th>
+                        <th>F_S_S</th>
+                        <th>F_S_E</th>
+                        <th>F_Status</th>
+                        <th>Re</th>
+						<th>Ed</th>
+					</tr>
+				</thead>
+				<tbody class="container">
+				
+					<!--render table with items data -->
+					<% for(var i=0; i<items.length; i++) { %>
+						<tr id="<%= items[i]._id %>">						
+						
+							<td class='f_id_t' id='f_id_t'><%= items[i].f_id %></td>
+							<td class='f_name_t' id='f_name_t'><%= items[i].f_name %></td>
+							<td class='f_dept_t' id='f_dept_t'><%= items[i].f_dept %></td>
+							<td class='f_email_t' id='f_email_t'><%= items[i].f_email %></td>
+							<td class='f_phone_t' id='f_phone_t'><%= items[i].f_phone %></td>
+							<td class='f_type_t' id='f_type_t'><%= items[i].f_type %></td>
+							<td class='f_campus_t' id='f_campus_t'><%= items[i].f_campus %></td>
+							<td class='f_floor_t' id='f_floor_t'><%= items[i].f_floor %></td>
+							<td class='f_room_t' id='f_room_t'><%= items[i].f_room %></td>
+							<td class='f_others_t' id='f_others_t'><%= items[i].f_others %></td>
+							<td class='f_ssid_t' id='f_ssid_t'><%= items[i].f_ssid %></td>
+							<td class='f_own_mac_t' id='f_own_mac_t'><%= items[i].f_own_mac %></td>
+							<td class='f_imei_t' id='f_imei_t'><%= items[i].f_imei %></td>
+							<td class='f_sch_name_t' id='f_sch_name_t'><%= items[i].f_sch_name %></td>
+							<td class='f_sch_day_t' id='f_sch_day_t'><%= items[i].f_sch_day %></td>
+							<td class='f_sch_start_t' id='f_sch_start_t'><%= items[i].f_sch_start %></td>
+							<td class='f_sch_end_t' id='f_sch_end_t'><%= items[i].f_sch_end %></td>
+							
+							<td class='f_status_t' id='f_sch_end_t'><%= items[i].f_status %></td>
+							
+						
+							<td><a href="#" onclick="removeData(this)" data='<%= items[i]._id %>' class="btnRemove" name="remove">Re</a></td>
+							<td><a i=<%=i%> data="<%= items[i]._id %>" href="#" class="btnEdit" onclick='editData(this)'>Ed</a></td>
+						</tr>
+					<% } %>
+					
+				</tbody>
+			</table>
+			<br />
+			
+			<!--calculate total and then display total-->
+			<%var total = 0%>
+			<%for(var i=0; i<items.length; i++) {
+				total = total + items[i].price * items[i].qty;}
+			%>
+			<div class="total">Total Hours:<%=total%></div>
+			
+			<br />
+			
+			<!--insertion table form-->
+			<table class="addT" id="addT">
+            <form id="form1">
+				<tr>
+					<td>Faculty ID: </td>
+					<td><input type="text" name="f_id" id="txtnm"  /></td>
+				</tr>
+				<tr>
+					<td>Faculty Name : </td>
+					<td><input type="text" name="f_name" id="txtprice" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Department : </td>
+					<td>
+						<select name="f_dept">
+						  <option value="Faculty of Science & Information Technology">Faculty of Science & Information Technology</option>
+						  <option value="Faculty of Engineering">Faculty of Engineering</option>
+						  <option value="Faculty of Business Administration">Faculty of Business Administration</option>
+						  <option value="Faculty of Art & Social Sciences">Faculty of Art & Social Sciences</option>
+						</select>
+						
+					</td>
+					
+				</tr>
+				<tr>
+					<td>Faculty Email : </td>
+					<td><input type="text" name="f_email" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Phone : </td>
+					<td><input type="text" name="f_phone" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Type : </td>
+					<td><input type="text" name="f_type" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Campus : </td>
+					<td><input type="text" name="f_campus" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Floor : </td>
+					<td><input type="text" name="f_floor" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Room : </td>
+					<td><input type="text" name="f_room" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty others : </td>
+					<td><input type="text" name="f_others" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty SSID : </td>
+					<td><input type="text" name="f_ssid" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Own Mac : </td>
+					<td><input type="text" name="f_own_mac" id="txtqty" /></td>
+				</tr>
+				
+				<tr>
+					<td>Faculty IMEI : </td>
+					<td><input type="text" name="f_imei" id="txtqty" /></td>
+				</tr>
+				
+				<tr>
+					<td>Faculty Sch Name : </td>
+					<td><input type="text" name="f_sch_name" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Sch Day : </td>
+					<td><input type="text" name="f_sch_day" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Start : </td>
+					<td><input type="text" name="f_sch_start" id="txtqty" /></td>
+				</tr>
+				<tr>
+					<td>Faculty End : </td>
+					<td><input type="text" name="f_sch_end" id="txtqty" /></td>
+				</tr>
+				
+				<tr>
+					<td>Faculty Status : </td>
+					<td>
+						<select name="f_status">
+						  <option value="Available">Available</option>
+						  <option value="Busy">Busy</option>
+						  <option value="Gone">Gone</option>
+						  <option value="Others">Others</option>
+						</select>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td><input type="button" value="Add" id="add" /> </td>				
+				</tr>
+                </form>
+			</table>
+			
+			<!--updation table form-->
+			<table class="updateT" id="updateT">
+            <form id="form2">
+				<tr>
+					<td>Faculty ID: </td>
+					<td><input type="text" name="f_id_e" id="f_id_e"  /></td>
+				</tr>
+				<tr>
+					<td>Faculty Name : </td>
+					<td><input type="text" name="f_name_e" id="f_name_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Department : </td>
+					<td>
+						<select name="f_dept_e" id="f_dept_e">
+						  <option value="Faculty of Science & Information Technology">Faculty of Science & Information Technology</option>
+						  <option value="Faculty of Engineering">Faculty of Engineering</option>
+						  <option value="Faculty of Business Administration">Faculty of Business Administration</option>
+						  <option value="Faculty of Art & Social Sciences">Faculty of Art & Social Sciences</option>
+						</select>
+						
+					</td>
+					
+				</tr>
+				<tr>
+					<td>Faculty Email : </td>
+					<td><input type="text" name="f_email_e" id="f_email_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Phone : </td>
+					<td><input type="text" name="f_phone_e" id="f_phone_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Type : </td>
+					<td><input type="text" name="f_type_e" id="f_type_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Campus : </td>
+					<td><input type="text" name="f_campus_e" id="f_campus_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Floor : </td>
+					<td><input type="text" name="f_floor_e" id="f_floor_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Room : </td>
+					<td><input type="text" name="f_room_e" id="f_room_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty others : </td>
+					<td><input type="text" name="f_others_e" id="f_others_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty SSID : </td>
+					<td><input type="text" name="f_ssid_e" id="f_ssid_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Own Mac : </td>
+					<td><input type="text" name="f_own_mac_e" id="f_own_mac_e" /></td>
+				</tr>
+				
+				<tr>
+					<td>Faculty IMEI : </td>
+					<td><input type="text" name="f_imei_e" id="f_imei_e" /></td>
+				</tr>
+				
+				<tr>
+					<td>Faculty Sch Name : </td>
+					<td><input type="text" name="f_sch_name_e" id="f_sch_name_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Sch Day : </td>
+					<td><input type="text" name="f_sch_day_e" id="f_sch_day_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty Start : </td>
+					<td><input type="text" name="f_sch_start_e" id="f_sch_start_e" /></td>
+				</tr>
+				<tr>
+					<td>Faculty End : </td>
+					<td><input type="text" name="f_sch_end_e" id="f_sch_end_e" /></td>
+				</tr>
+				
+				<tr>
+					<td>Faculty Status : </td>
+					<td>
+						<select name="f_status_e" id="f_status_e">
+						  <option value="Available">Available</option>
+						  <option value="Busy">Busy</option>
+						  <option value="Gone">Gone</option>
+						  <option value="Others">Others</option>
+						</select>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td><input type="button" value="Update" id="update" />&nbsp;<input type="button" value="Cancel" id="cancel" /></td>
+					<td><input type="hidden" name="hide" id="hide" value=""></td>				
+				</tr>
+                </form>
+			</table>	
+					
+		</div>
+	</div>
+	
+</body>
+</html>

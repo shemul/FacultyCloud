@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>test</title>
+    
+  </head>
+  <body>
+    <ul id="messages"></ul>
+  
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        var socket = io();
+      
+        socket.on('chat message', function(msg){
+          
+            
+            
+           
+            for (var i = msg.length - 1; i >= 0; i--) {
+
+              $('#messages').append($('<li>').text(msg[i].status));
+              
+            };
+            
+            
+        });
+  
+    </script>
+  </body>
+</html>
