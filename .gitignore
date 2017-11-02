@@ -1,1 +1,3 @@
-db
+db/local.0
+db/local.ns
+db/mongod.lock
